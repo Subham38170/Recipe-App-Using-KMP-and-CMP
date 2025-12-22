@@ -13,5 +13,5 @@ enum class BottomNavigationItem(
 ) {
     HOME(Res.drawable.ic_headline, "Headline", Routes.HomeScreen),
     SEARCH(Res.drawable.ic_search, "Search", Routes.SearchScreen),
-    FAVORITE(Res.drawable.ic_bookmark_filled, "BookMark", Routes.FavoriteScreen)
+    FAVORITE(Res.drawable.ic_bookmark_filled, "BookMark", Routes.BookMarkScreen)
 }

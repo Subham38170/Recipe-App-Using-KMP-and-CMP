@@ -1,15 +1,16 @@
 package org.subham.newsapp.ui.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
-sealed class Routes {
+sealed class Routes : NavKey {
     @Serializable
-    object HomeScreen: Routes()
+    object HomeScreen : Routes()
 
     @Serializable
-    object SearchScreen: Routes()
+    object SearchScreen : Routes()
 
     @Serializable
-    object FavoriteScreen: Routes()
+    object BookMarkScreen : Routes()
 }
 

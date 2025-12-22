@@ -61,6 +61,15 @@ kotlin {
             // This library contains the NavigationSuiteScaffold for CMP 2025
             implementation(libs.material3.adaptive.navigation.suite)
 
+            // UI components for all platforms (Android, iOS, Desktop, Web)
+            implementation(libs.navigation3.ui)
+
+            // Adaptive UI integration for all platforms
+            implementation(libs.adaptive.navigation3)
+
+            // Scoped ViewModels for all platforms
+            implementation(libs.lifecycle.viewmodel.navigation3)
+
     }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
