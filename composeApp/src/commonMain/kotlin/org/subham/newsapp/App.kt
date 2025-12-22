@@ -22,31 +22,14 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.subham.newsapp.theme.NewsAppTheme
+import org.subham.newsapp.ui.MainScreen
+import org.subham.newsapp.utils.getRandomId
+import org.subham.newsapp.utils.getType
 
 @Composable
 @Preview
 fun App() {
     NewsAppTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-
-            val greeting = remember { Greeting().greet() }
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Image(painterResource(Res.drawable.logo), null)
-                Text(
-                    text = stringResource(Res.string.welcome)
-                )
-                Text("Compose: $greeting")
-            }
-        }
+        MainScreen()
     }
 }

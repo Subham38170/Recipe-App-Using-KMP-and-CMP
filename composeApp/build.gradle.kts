@@ -16,7 +16,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -26,20 +26,20 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm()
-    
+
     js {
         browser()
         binaries.executable()
     }
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         binaries.executable()
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -57,7 +57,11 @@ kotlin {
 
             //Material 3
             implementation(compose.material3)
-        }
+
+            // This library contains the NavigationSuiteScaffold for CMP 2025
+            implementation(libs.material3.adaptive.navigation.suite)
+
+    }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

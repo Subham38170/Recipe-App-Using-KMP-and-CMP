@@ -3,4 +3,6 @@
 <resources>
     <string name="app_name">News App</string>
     <string name="welcome">Welcome</string>
+
+    <string name = "setting">Setting</string>
 </resources>
