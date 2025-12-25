@@ -3,7 +3,6 @@ package org.subham.newsapp.ui.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -13,8 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import coil3.compose.AsyncImage
+import newsapp.composeapp.generated.resources.Res
+import newsapp.composeapp.generated.resources.logo
+import org.jetbrains.compose.resources.painterResource
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.theme.imageSize
 import org.subham.newsapp.theme.mediumPadding
@@ -29,11 +33,16 @@ fun ArticleItem(
             .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.spacedBy(mediumPadding)
     ) {
-        Box(
+        AsyncImage(
+            model = article.urlToImage,
+            contentDescription = "",
             modifier = Modifier
                 .size(imageSize)
                 .clip(MaterialTheme.shapes.large)
-                .background(Color.Gray)
+                .background(Color.Gray),
+            placeholder = painterResource(Res.drawable.logo),
+            error = painterResource(Res.drawable.logo),
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier

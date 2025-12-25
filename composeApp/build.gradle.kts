@@ -44,6 +44,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            //Ktor
+            implementation(libs.ktor.client.okhttp)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -70,13 +74,36 @@ kotlin {
             // Scoped ViewModels for all platforms
             implementation(libs.lifecycle.viewmodel.navigation3)
 
-    }
+            //Coil
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+
+            //Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.serialization.core)
+
+
+
+        }
+        iosMain.dependencies {
+            //Ktor
+            implementation(libs.ktor.client.darwin)
+
+        }
+        webMain.dependencies {
+            //Ktor
+            implementation(libs.ktor.client.js)
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+
+            //Ktor
+            implementation(libs.ktor.client.java)
+
         }
     }
 }
