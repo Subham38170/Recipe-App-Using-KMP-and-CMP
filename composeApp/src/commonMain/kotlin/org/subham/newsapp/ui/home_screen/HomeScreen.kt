@@ -1,9 +1,29 @@
 package org.subham.newsapp.ui.home_screen
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import newsapp.composeapp.generated.resources.Res
+import newsapp.composeapp.generated.resources.setting
+import newsapp.composeapp.generated.resources.settings_24
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.data.model.Source
 import org.subham.newsapp.ui.common.ArticleListScreen
+import org.subham.newsapp.ui.common.EmptyContent
+import org.subham.newsapp.ui.common.ShimmerEffect
 
 val articlesList = listOf(
     Article(
@@ -49,10 +69,59 @@ val articlesList = listOf(
     )
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    ArticleListScreen(
-        articles = articlesList,
-        onClick = {}
-    )
+fun HomeScreen(
+    navigateToSettingScreen: ()-> Unit
+) {
+    val headLineViewModel = viewModel { HomeViewModel() }
+    val uiState by headLineViewModel.newsState.collectAsState()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "News",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
+                actions = {
+                    IconButton(
+                        onClick = navigateToSettingScreen
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.settings_24),
+                            contentDescription = stringResource(Res.string.setting)
+                        )
+                    }
+
+                }
+            )
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(it)
+        ){
+            uiState.DisplayResult(
+                onIdle = {
+
+                },
+                onLoading = {
+                    ShimmerEffect()
+                },
+                onSuccess = {
+                    if (it.isEmpty()) EmptyContent("No news")
+                    else ArticleListScreen(
+                        articles = it,
+                        onClick = {}
+                    )
+                },
+                onError = {
+                    EmptyContent(it)
+                }
+            )
+        }
+    }
 }

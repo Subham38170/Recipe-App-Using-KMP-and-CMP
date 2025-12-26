@@ -83,6 +83,10 @@ kotlin {
             implementation(libs.kotlinx.serialization.core)
 
 
+            //Viewmodel
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
+
+
 
         }
         iosMain.dependencies {

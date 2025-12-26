@@ -1,41 +1,84 @@
 package org.subham.newsapp.ui.search_screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.subham.newsapp.theme.mediumPadding
 import org.subham.newsapp.ui.common.ArticleListScreen
+import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.SearchBar
-import org.subham.newsapp.ui.home_screen.articlesList
+import org.subham.newsapp.ui.common.ShimmerEffect
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen() {
-    var text by rememberSaveable{
+    val searchViewModel = viewModel { SearchViewModel() }
+    val uiState by searchViewModel.newsState.collectAsState()
+    var text by rememberSaveable {
         mutableStateOf("")
     }
-    Column(
-        verticalArrangement = Arrangement.spacedBy(mediumPadding)
-    ){
-        SearchBar(
-            text = text,
-            onValueChange = {text = it},
-            onSearch = { query ->
-                if(query.trim().isNotEmpty()) println(query)
-            }
-        )
-        ArticleListScreen(
-            articles = articlesList,
-            onClick = {}
-        )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "News",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
+
+
+                )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(it),
+            verticalArrangement = Arrangement.spacedBy(mediumPadding)
+        ) {
+            SearchBar(
+                text = text,
+                onValueChange = { text = it },
+                onSearch = { query ->
+                    if (query.trim().isNotEmpty()) searchViewModel.searchNews(query)
+                }
+            )
+
+
+            uiState.DisplayResult(
+                onIdle = {
+                    EmptyContent("Type to search")
+
+                },
+                onLoading = {
+                    ShimmerEffect()
+                },
+                onSuccess = {
+                    if (it.isEmpty()) EmptyContent("No news")
+                    else ArticleListScreen(
+                        articles = it,
+                        onClick = {}
+                    )
+                },
+                onError = {
+                    EmptyContent(it)
+                }
+            )
+
+        }
     }
 }

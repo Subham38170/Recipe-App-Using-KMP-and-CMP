@@ -12,5 +12,8 @@ sealed class Routes : NavKey {
 
     @Serializable
     object BookMarkScreen : Routes()
+
+    @Serializable
+    object SettingScreen: Routes()
 }
 

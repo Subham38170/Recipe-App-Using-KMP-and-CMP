@@ -1,5 +1,11 @@
 package org.subham.newsapp.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,16 +23,21 @@ import org.jetbrains.compose.resources.painterResource
 import org.subham.newsapp.ui.bookmark_screen.BookMarkScreen
 import org.subham.newsapp.ui.home_screen.HomeScreen
 import org.subham.newsapp.ui.search_screen.SearchScreen
+import org.subham.newsapp.ui.setting_screen.SettingScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier
 ) {
 
+
     val backStack = remember { mutableStateListOf<Routes>(Routes.HomeScreen) }
+
     NavigationSuiteScaffold(
         modifier = modifier,
         navigationSuiteItems = {
+
             BottomNavigationItem.entries.forEach {
                 item(
                     selected = backStack.last() == it.route,
@@ -53,7 +64,11 @@ fun NavGraph(
                 )
             }
         }
+
+
     ) {
+
+
         NavDisplay(
             backStack = backStack,
             onBack = {
@@ -67,13 +82,37 @@ fun NavGraph(
             ),
             entryProvider = entryProvider {
                 entry<Routes.HomeScreen> {
-                    HomeScreen()
+                    HomeScreen(
+                        navigateToSettingScreen = {
+                            if (backStack.last() != Routes.SettingScreen) backStack.add(Routes.SettingScreen)
+                        }
+                    )
                 }
                 entry<Routes.SearchScreen> {
                     SearchScreen()
                 }
                 entry<Routes.BookMarkScreen> {
                     BookMarkScreen()
+                }
+                entry<Routes.SettingScreen>(
+                    metadata = NavDisplay.transitionSpec {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                        ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                    } + NavDisplay.popTransitionSpec {
+                        // Slide old content down, revealing the new content in place underneath
+                        EnterTransition.None togetherWith
+                                slideOutHorizontally(
+                                    targetOffsetX = { it },
+                                )
+
+                    }
+                ) {
+                    SettingScreen(
+                        onBackClick = {
+                            backStack.removeLastOrNull()
+                        }
+                    )
                 }
             }
         )
