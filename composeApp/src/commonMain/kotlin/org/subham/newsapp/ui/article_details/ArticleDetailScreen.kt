@@ -10,14 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.BrowserNotSupported
-import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Web
 import androidx.compose.material.icons.filled.Webhook
-import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import coil3.compose.AsyncImage
 import newsapp.composeapp.generated.resources.Res
@@ -40,6 +36,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.theme.detailImageSize
 import org.subham.newsapp.theme.xLargePadding
+import org.subham.newsapp.utils.sharedLink
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +44,7 @@ fun ArticleDetailScreen(
     article: Article,
     onBackClick: () -> Unit
 ) {
+    val uriHandler = LocalUriHandler.current
 
     Scaffold(
         topBar = {
@@ -54,7 +52,7 @@ fun ArticleDetailScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.news_detail),
-                        style = MaterialTheme.typography.headlineLarge,
+                        style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 },
@@ -71,7 +69,7 @@ fun ArticleDetailScreen(
                 actions = {
                     IconButton(
                         onClick = {
-
+                            sharedLink(article.url)
                         }
                     ) {
                         Icon(
@@ -81,7 +79,7 @@ fun ArticleDetailScreen(
                     }
                     IconButton(
                         onClick = {
-
+                            uriHandler.openUri(article.url)
                         }
                     ) {
                         Icon(
