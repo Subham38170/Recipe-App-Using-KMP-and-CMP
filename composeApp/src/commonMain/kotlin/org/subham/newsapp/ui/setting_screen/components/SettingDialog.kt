@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
@@ -34,8 +36,7 @@ import newsapp.composeapp.generated.resources.cancel
 import newsapp.composeapp.generated.resources.choose_a_theme
 import newsapp.composeapp.generated.resources.delete
 import newsapp.composeapp.generated.resources.delete_bookmark
-import newsapp.composeapp.generated.resources.ic_delete
-import org.jetbrains.compose.resources.painterResource
+
 import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.theme.mediumPadding
 import org.subham.newsapp.theme.xLargePadding
@@ -61,7 +62,7 @@ fun DeleteBookmarkDialog(
         },
         icon = {
             Icon(
-                painter = painterResource(Res.drawable.ic_delete),
+                imageVector = Icons.Default.Delete,
                 contentDescription = "Delete"
             )
         },

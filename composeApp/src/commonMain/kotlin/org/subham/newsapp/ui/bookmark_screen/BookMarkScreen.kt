@@ -1,5 +1,7 @@
 package org.subham.newsapp.ui.bookmark_screen
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -8,6 +10,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
@@ -32,24 +35,28 @@ fun BookMarkScreen() {
             )
         }
     ) {
-        uiState.DisplayResult(
-            onIdle = {
+        Box(
+            modifier = Modifier
+                .padding(it)
+        ) {
+            uiState.DisplayResult(
+                onIdle = {
 
-            },
-            onLoading = {
-                ShimmerEffect()
-            },
-            onSuccess = {
-                if (it.isEmpty()) EmptyContent("No news")
-                else ArticleListScreen(
-                    articles = it,
-                    onClick = {}
-                )
-            },
-            onError = {
-                EmptyContent(it)
-            }
-        )
+                },
+                onLoading = {
+                    ShimmerEffect()
+                },
+                onSuccess = {
+                    if (it.isEmpty()) EmptyContent("No news")
+                    else ArticleListScreen(
+                        articles = it,
+                        onClick = {}
+                    )
+                },
+                onError = {
+                    EmptyContent(it)
+                }
+            )
+        }
     }
-
 }

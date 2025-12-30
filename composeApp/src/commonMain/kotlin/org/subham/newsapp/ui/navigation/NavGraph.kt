@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import org.jetbrains.compose.resources.painterResource
+import org.subham.newsapp.ui.article_details.ArticleDetailScreen
 import org.subham.newsapp.ui.bookmark_screen.BookMarkScreen
 import org.subham.newsapp.ui.home_screen.HomeScreen
 import org.subham.newsapp.ui.search_screen.SearchScreen
@@ -56,7 +56,7 @@ fun NavGraph(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(it.icon),
+                            imageVector = it.icon,
                             contentDescription = it.title
 
                         )
@@ -83,8 +83,8 @@ fun NavGraph(
             entryProvider = entryProvider {
                 entry<Routes.HomeScreen> {
                     HomeScreen(
-                        navigateToSettingScreen = {
-                            if (backStack.last() != Routes.SettingScreen) backStack.add(Routes.SettingScreen)
+                        navigateTo = {
+                            if (backStack.last() != it) backStack.add(it)
                         }
                     )
                 }
@@ -93,6 +93,14 @@ fun NavGraph(
                 }
                 entry<Routes.BookMarkScreen> {
                     BookMarkScreen()
+                }
+                entry<Routes.ArticleDetailsScreen> {
+                    ArticleDetailScreen(
+                        article = it.article,
+                        onBackClick = {
+                            backStack.removeLastOrNull()
+                        }
+                    )
                 }
                 entry<Routes.SettingScreen>(
                     metadata = NavDisplay.transitionSpec {

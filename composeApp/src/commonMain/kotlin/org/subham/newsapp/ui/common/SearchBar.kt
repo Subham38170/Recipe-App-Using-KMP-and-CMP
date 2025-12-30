@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,7 +16,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import newsapp.composeapp.generated.resources.Res
-import newsapp.composeapp.generated.resources.ic_search
 import newsapp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -36,7 +37,7 @@ fun SearchBar(
         textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
         leadingIcon = {
             Icon(
-                painter = painterResource(Res.drawable.ic_search),
+                imageVector = Icons.Default.Search,
                 contentDescription = null,
             )
         },

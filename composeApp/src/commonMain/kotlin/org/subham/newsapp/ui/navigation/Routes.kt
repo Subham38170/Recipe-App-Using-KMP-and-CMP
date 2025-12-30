@@ -2,6 +2,7 @@ package org.subham.newsapp.ui.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
+import org.subham.newsapp.data.model.Article
 
 sealed class Routes : NavKey {
     @Serializable
@@ -14,6 +15,11 @@ sealed class Routes : NavKey {
     object BookMarkScreen : Routes()
 
     @Serializable
-    object SettingScreen: Routes()
+    object SettingScreen : Routes()
+
+    @Serializable
+    data class ArticleDetailsScreen(
+        val article: Article
+    ) : Routes()
 }
 

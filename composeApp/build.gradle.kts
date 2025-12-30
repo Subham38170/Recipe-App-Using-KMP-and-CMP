@@ -61,6 +61,7 @@ kotlin {
 
             //Material 3
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
 
             // This library contains the NavigationSuiteScaffold for CMP 2025
             implementation(libs.material3.adaptive.navigation.suite)

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import org.subham.newsapp.theme.mediumPadding
 import org.subham.newsapp.theme.xLargePadding
@@ -22,7 +23,7 @@ import org.subham.newsapp.theme.xLargePadding
 @Composable
 fun SettingItem(
     onClick: () -> Unit,
-    painter: Painter,
+    imageVector: ImageVector,
     itemName: String,
     itemColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -37,7 +38,7 @@ fun SettingItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painter,
+            imageVector = imageVector,
             contentDescription = null,
             colorFilter = ColorFilter.tint(itemColor),
             modifier = Modifier.size(xLargePadding)

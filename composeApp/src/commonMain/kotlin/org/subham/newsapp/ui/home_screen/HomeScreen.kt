@@ -2,6 +2,8 @@ package org.subham.newsapp.ui.home_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import newsapp.composeapp.generated.resources.Res
 import newsapp.composeapp.generated.resources.setting
-import newsapp.composeapp.generated.resources.settings_24
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.data.model.Source
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.ShimmerEffect
+import org.subham.newsapp.ui.navigation.Routes
 
 val articlesList = listOf(
     Article(
@@ -32,8 +33,7 @@ val articlesList = listOf(
         description = "India's tech industry continues to expand rapidly.",
         publishedAt = "2025-01-20T10:30:00Z",
         source = Source(
-            id = "bbc-news",
-            name = "BBC News"
+            id = "bbc-news", name = "BBC News"
         ),
         title = "India's Tech Boom in 2025",
         url = "https://www.bbc.com/news/technology-india",
@@ -46,8 +46,7 @@ val articlesList = listOf(
         description = "A breakthrough in renewable energy storage.",
         publishedAt = "2025-01-19T08:15:00Z",
         source = Source(
-            id = "the-verge",
-            name = "The Verge"
+            id = "the-verge", name = "The Verge"
         ),
         title = "New Breakthrough in Renewable Energy",
         url = "https://www.theverge.com/renewable-energy",
@@ -60,8 +59,7 @@ val articlesList = listOf(
         description = "India wins an intense cricket match.",
         publishedAt = "2025-01-18T18:45:00Z",
         source = Source(
-            id = "espn-cricinfo",
-            name = "ESPN Cricinfo"
+            id = "espn-cricinfo", name = "ESPN Cricinfo"
         ),
         title = "India Clinches Thriller in Last Over",
         url = "https://www.espncricinfo.com/india-match",
@@ -72,56 +70,48 @@ val articlesList = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToSettingScreen: ()-> Unit
+    navigateTo: (Routes) -> Unit
 ) {
     val headLineViewModel = viewModel { HomeViewModel() }
     val uiState by headLineViewModel.newsState.collectAsState()
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "News",
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.onBackground
+            TopAppBar(title = {
+                Text(
+                    text = "News",
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }, actions = {
+                IconButton(
+                    onClick = {
+                        navigateTo(Routes.SettingScreen)
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(Res.string.setting)
                     )
-                },
-                actions = {
-                    IconButton(
-                        onClick = navigateToSettingScreen
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.settings_24),
-                            contentDescription = stringResource(Res.string.setting)
-                        )
-                    }
-
                 }
-            )
-        }
-    ) {
+
+            })
+        }) {
         Box(
-            modifier = Modifier
-                .padding(it)
-        ){
-            uiState.DisplayResult(
-                onIdle = {
+            modifier = Modifier.padding(it)
+        ) {
+            uiState.DisplayResult(onIdle = {
 
-                },
-                onLoading = {
-                    ShimmerEffect()
-                },
-                onSuccess = {
-                    if (it.isEmpty()) EmptyContent("No news")
-                    else ArticleListScreen(
-                        articles = it,
-                        onClick = {}
-                    )
-                },
-                onError = {
-                    EmptyContent(it)
-                }
-            )
+            }, onLoading = {
+                ShimmerEffect()
+            }, onSuccess = {
+                if (it.isEmpty()) EmptyContent("No news")
+                else ArticleListScreen(
+                    articles = it,
+                    onClick = {
+                        navigateTo(Routes.ArticleDetailsScreen(it))
+                    })
+            }, onError = {
+                EmptyContent(it)
+            })
         }
     }
 }
