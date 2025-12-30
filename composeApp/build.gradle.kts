@@ -1,6 +1,8 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,6 +10,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+
+    alias(libs.plugins.buildkonfig)
+
 }
 
 kotlin {
@@ -87,7 +92,7 @@ kotlin {
             //Viewmodel
             implementation(libs.androidx.lifecycle.viewmodelCompose)
 
-
+            //Build config
 
         }
         iosMain.dependencies {
@@ -95,7 +100,8 @@ kotlin {
             implementation(libs.ktor.client.darwin)
 
         }
-        webMain.dependencies {
+
+        jsMain.dependencies {
             //Ktor
             implementation(libs.ktor.client.js)
         }
@@ -153,5 +159,24 @@ compose.desktop {
             packageName = "org.subham.newsapp"
             packageVersion = "1.0.0"
         }
+    }
+}
+buildkonfig {
+    packageName = "org.subham.newsapp"
+
+    val localProperties =
+        Properties().apply {
+            val propsFile = rootProject.file("local.properties")
+            if (propsFile.exists()) {
+                load(propsFile.inputStream())
+            }
+        }
+
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "NEWS_API_KEY",
+            localProperties["NEWS_API_KEY"]?.toString() ?: "",
+        )
     }
 }

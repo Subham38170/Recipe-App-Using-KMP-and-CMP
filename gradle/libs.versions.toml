@@ -16,6 +16,7 @@ composeMultiplatform = "1.9.3"
 junit = "4.13.2"
 kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
+kotlinxDatetime = "0.7.1"
 kotlinxSerializationCore = "1.9.0"
 ktorClientContentNegotiation = "3.3.3"
 ktorClientJava = "3.3.3"
@@ -24,8 +25,11 @@ lifecycleViewmodelNavigation3 = "2.10.0-alpha07"
 material3AdaptiveNavigationSuite = "1.9.0"
 navigation3Ui = "1.0.0-alpha06"
 ktor = "3.3.3"
+buildkonfig = "0.17.1"
+
 
 [libraries]
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 ktor-client-apache = { module = "io.ktor:ktor-client-apache" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
@@ -63,3 +67,4 @@ composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "com
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

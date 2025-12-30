@@ -3,12 +3,12 @@ package org.subham.newsapp.ui.home_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.utils.Resource
+import org.subham.newsapp.utils.news_api_key
 
 class HomeViewModel : ViewModel() {
 

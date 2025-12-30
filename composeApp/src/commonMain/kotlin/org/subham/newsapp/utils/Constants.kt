@@ -9,7 +9,9 @@ import newsapp.composeapp.generated.resources.dark_mode
 import newsapp.composeapp.generated.resources.light_mode
 import newsapp.composeapp.generated.resources.system_default
 import org.jetbrains.compose.resources.StringResource
+import org.subham.newsapp.BuildKonfig
 
+val news_api_key = BuildKonfig.NEWS_API_KEY
 enum class Type {
     MOBILE,
     DESKTOP,
