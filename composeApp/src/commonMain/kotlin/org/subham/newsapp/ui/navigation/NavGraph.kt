@@ -10,9 +10,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -24,17 +27,30 @@ import org.subham.newsapp.ui.bookmark_screen.BookMarkScreen
 import org.subham.newsapp.ui.home_screen.HomeScreen
 import org.subham.newsapp.ui.search_screen.SearchScreen
 import org.subham.newsapp.ui.setting_screen.SettingScreen
+import org.subham.newsapp.ui.setting_screen.SettingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    settingViewModel: SettingViewModel
 ) {
 
 
     val backStack = remember { mutableStateListOf<Routes>(Routes.HomeScreen) }
 
+    val navigationSuiteScaffoldState = rememberNavigationSuiteScaffoldState()
+
+    val scope = rememberCoroutineScope()
+
+    val showNavigationItems = backStack.last() in BottomNavigationItem.entries.map { it.route }
+
+    LaunchedEffect(showNavigationItems) {
+        if (showNavigationItems) navigationSuiteScaffoldState.show()
+        else navigationSuiteScaffoldState.hide()
+    }
     NavigationSuiteScaffold(
+        state = navigationSuiteScaffoldState,
         modifier = modifier,
         navigationSuiteItems = {
 
@@ -43,7 +59,6 @@ fun NavGraph(
                     selected = backStack.last() == it.route,
                     onClick = {
                         if (backStack.last() != it.route) {
-                            backStack.clear()
                             backStack.add(it.route)
                         }
                     },
@@ -116,10 +131,12 @@ fun NavGraph(
 
                     }
                 ) {
+
                     SettingScreen(
                         onBackClick = {
                             backStack.removeLastOrNull()
-                        }
+                        },
+                        settingViewModel = settingViewModel
                     )
                 }
             }

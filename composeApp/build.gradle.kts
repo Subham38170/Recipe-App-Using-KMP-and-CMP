@@ -92,7 +92,8 @@ kotlin {
             //Viewmodel
             implementation(libs.androidx.lifecycle.viewmodelCompose)
 
-            //Build config
+            // Settings library to store settings
+            implementation(libs.multiplatform.settings)
 
         }
         iosMain.dependencies {

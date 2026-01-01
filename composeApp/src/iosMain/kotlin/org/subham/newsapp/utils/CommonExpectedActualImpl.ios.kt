@@ -1,9 +1,12 @@
 package org.subham.newsapp.utils
 
 
+import com.russhwolf.settings.NSUserDefaultsSettings
+import com.russhwolf.settings.Settings
 import platform.Foundation.NSUUID
-import platform.Foundation.NSHomeDirectory
-import platform.UIKit.*
+import platform.Foundation.NSUserDefaults
+import platform.UIKit.UIActivityViewController
+import platform.UIKit.UIApplication
 
 
 actual fun getType(): Type {
@@ -11,7 +14,7 @@ actual fun getType(): Type {
 }
 
 actual fun getRandomId(): String {
-    return  NSUUID().UUIDString()
+    return NSUUID().UUIDString()
 }
 
 actual fun sharedLink(url: String) {
@@ -22,4 +25,9 @@ actual fun sharedLink(url: String) {
         animated = true,
         completion = null
     )
+}
+
+actual fun createSettings(): Settings {
+    val delegate = NSUserDefaults.standardUserDefaults
+    return NSUserDefaultsSettings(delegate = delegate)
 }

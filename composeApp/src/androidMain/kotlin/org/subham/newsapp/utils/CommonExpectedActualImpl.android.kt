@@ -1,7 +1,10 @@
 package org.subham.newsapp.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import com.russhwolf.settings.Settings
+import com.russhwolf.settings.SharedPreferencesSettings
 import java.util.UUID
 
 actual fun getType(): Type {
@@ -29,4 +32,10 @@ private var activityProvider: () -> Activity = {
 
 fun setActivityProvider(provider: () -> Activity) {
     activityProvider = provider
+}
+
+actual fun createSettings(): Settings {
+    val prefs =
+        activityProvider.invoke().getSharedPreferences(SharedPrefsFileName, Context.MODE_PRIVATE)
+    return SharedPreferencesSettings(prefs)
 }

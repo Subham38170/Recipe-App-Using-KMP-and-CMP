@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,10 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import newsapp.composeapp.generated.resources.Res
 import newsapp.composeapp.generated.resources.delete_bookmark
-
 import newsapp.composeapp.generated.resources.settings
 import newsapp.composeapp.generated.resources.theme
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.ui.setting_screen.components.DeleteBookmarkDialog
 import org.subham.newsapp.ui.setting_screen.components.SettingItem
@@ -35,17 +34,20 @@ import org.subham.newsapp.utils.Theme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    settingViewModel: SettingViewModel
 ) {
     var showDeleteBookmarkDialog by remember { mutableStateOf(false) }
     var showThemeSelectionDialog by remember { mutableStateOf(false) }
 
+    val currentTheme by settingViewModel.currentTheme.collectAsState()
     when {
         showThemeSelectionDialog -> {
             ThemeSelectionDialog(
-                currentTheme = Theme.LIGHT_MODE.name,
+                currentTheme = currentTheme ?: Theme.SYSTEM_DEFAULT.name,
                 onThemeChange = {
-
+                    settingViewModel.changeTheme(it.name)
+                    showThemeSelectionDialog = false
                 },
                 onDismissRequest = {
                     showThemeSelectionDialog = false

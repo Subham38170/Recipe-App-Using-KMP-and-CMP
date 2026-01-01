@@ -11,7 +11,10 @@ import newsapp.composeapp.generated.resources.system_default
 import org.jetbrains.compose.resources.StringResource
 import org.subham.newsapp.BuildKonfig
 
+
+const val SharedPrefsFileName= "app_prefs"
 val news_api_key = BuildKonfig.NEWS_API_KEY
+
 enum class Type {
     MOBILE,
     DESKTOP,
