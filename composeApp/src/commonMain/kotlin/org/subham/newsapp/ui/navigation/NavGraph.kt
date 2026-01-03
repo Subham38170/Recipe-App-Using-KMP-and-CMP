@@ -104,10 +104,20 @@ fun NavGraph(
                     )
                 }
                 entry<Routes.SearchScreen> {
-                    SearchScreen()
+                    SearchScreen(
+                        navigateTo = {
+                            if (backStack.last() != it) backStack.add(it)
+
+                        }
+                    )
                 }
                 entry<Routes.BookMarkScreen> {
-                    BookMarkScreen()
+                    BookMarkScreen(
+                        navigateTo = {
+                            if (backStack.last() != it) backStack.add(it)
+
+                        }
+                    )
                 }
                 entry<Routes.ArticleDetailsScreen> {
                     ArticleDetailScreen(

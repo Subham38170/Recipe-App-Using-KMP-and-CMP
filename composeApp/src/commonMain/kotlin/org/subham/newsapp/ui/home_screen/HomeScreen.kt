@@ -21,6 +21,7 @@ import newsapp.composeapp.generated.resources.setting
 import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.data.model.Article
 import org.subham.newsapp.data.model.Source
+import org.subham.newsapp.data.repository.RemoteNewsRepository
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.ShimmerEffect
@@ -72,7 +73,7 @@ val articlesList = listOf(
 fun HomeScreen(
     navigateTo: (Routes) -> Unit
 ) {
-    val headLineViewModel = viewModel { HomeViewModel() }
+    val headLineViewModel = viewModel { HomeViewModel(RemoteNewsRepository()) }
     val uiState by headLineViewModel.newsState.collectAsState()
     Scaffold(
         topBar = {

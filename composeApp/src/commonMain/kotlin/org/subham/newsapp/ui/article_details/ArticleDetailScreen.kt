@@ -69,7 +69,9 @@ fun ArticleDetailScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            sharedLink(article.url)
+                            article.url?.let {
+                                sharedLink(it)
+                            }
                         }
                     ) {
                         Icon(
@@ -79,7 +81,9 @@ fun ArticleDetailScreen(
                     }
                     IconButton(
                         onClick = {
-                            uriHandler.openUri(article.url)
+                            article.url?.let {
+                                uriHandler.openUri(it)
+                            }
                         }
                     ) {
                         Icon(
@@ -124,7 +128,7 @@ fun ArticleDetailScreen(
             }
             item {
                 Text(
-                    text = article.title,
+                    text = article.title?: "Unknown",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground

@@ -12,6 +12,8 @@ plugins {
     alias(libs.plugins.composeHotReload)
 
     alias(libs.plugins.buildkonfig)
+    kotlin("plugin.serialization") version "1.9.10"
+
 
 }
 
@@ -71,6 +73,9 @@ kotlin {
             // This library contains the NavigationSuiteScaffold for CMP 2025
             implementation(libs.material3.adaptive.navigation.suite)
 
+            //Kotlin Serialization
+            implementation(libs.kotlinx.serialization.core)
+
             // UI components for all platforms (Android, iOS, Desktop, Web)
             implementation(libs.navigation3.ui)
 
@@ -86,8 +91,10 @@ kotlin {
 
             //Ktor
             implementation(libs.ktor.client.core)
-            implementation(libs.kotlinx.serialization.core)
-
+            implementation(libs.ktor.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.kermit)
 
             //Viewmodel
             implementation(libs.androidx.lifecycle.viewmodelCompose)
@@ -99,12 +106,12 @@ kotlin {
         iosMain.dependencies {
             //Ktor
             implementation(libs.ktor.client.darwin)
-
         }
 
         jsMain.dependencies {
             //Ktor
             implementation(libs.ktor.client.js)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

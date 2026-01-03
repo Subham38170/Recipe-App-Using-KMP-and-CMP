@@ -12,8 +12,12 @@ import org.jetbrains.compose.resources.StringResource
 import org.subham.newsapp.BuildKonfig
 
 
-const val SharedPrefsFileName= "app_prefs"
-val news_api_key = BuildKonfig.NEWS_API_KEY
+const val SharedPrefsFileName = "app_prefs"
+val NEWS_API_KEY = BuildKonfig.NEWS_API_KEY
+
+
+//https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
+const val BASE_URL = "https://newsapi.org/v2/"
 
 enum class Type {
     MOBILE,

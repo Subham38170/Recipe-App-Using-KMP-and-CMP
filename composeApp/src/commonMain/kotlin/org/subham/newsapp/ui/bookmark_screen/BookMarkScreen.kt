@@ -15,10 +15,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.ShimmerEffect
+import org.subham.newsapp.ui.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookMarkScreen() {
+fun BookMarkScreen(
+    navigateTo: (Routes) -> Unit
+) {
 
     val bookMarkViewModel = viewModel { BookMarkViewModel() }
     val uiState by bookMarkViewModel.newsState.collectAsState()
@@ -50,7 +53,9 @@ fun BookMarkScreen() {
                     if (it.isEmpty()) EmptyContent("No news")
                     else ArticleListScreen(
                         articles = it,
-                        onClick = {}
+                        onClick = {
+                            navigateTo(Routes.ArticleDetailsScreen(it))
+                        }
                     )
                 },
                 onError = {

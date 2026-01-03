@@ -16,16 +16,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.subham.newsapp.data.repository.RemoteNewsRepository
 import org.subham.newsapp.theme.mediumPadding
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.SearchBar
 import org.subham.newsapp.ui.common.ShimmerEffect
+import org.subham.newsapp.ui.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
-    val searchViewModel = viewModel { SearchViewModel() }
+fun SearchScreen(
+    navigateTo: (Routes) -> Unit
+) {
+    val searchViewModel = viewModel { SearchViewModel(RemoteNewsRepository()) }
     val uiState by searchViewModel.newsState.collectAsState()
     var text by rememberSaveable {
         mutableStateOf("")
@@ -71,7 +75,9 @@ fun SearchScreen() {
                     if (it.isEmpty()) EmptyContent("No news")
                     else ArticleListScreen(
                         articles = it,
-                        onClick = {}
+                        onClick = {
+                            navigateTo(Routes.ArticleDetailsScreen(it))
+                        }
                     )
                 },
                 onError = {

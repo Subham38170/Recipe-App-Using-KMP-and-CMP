@@ -50,7 +50,7 @@ fun ArticleItem(
             verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
             Text(
-                text = article.title,
+                text = article.title?: "Unknown",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 2,
@@ -67,7 +67,7 @@ fun ArticleItem(
                 )
             }
             Text(
-                text = article.source.name,
+                text = article.source?.name?: "Unknown",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 overflow = TextOverflow.Ellipsis,
