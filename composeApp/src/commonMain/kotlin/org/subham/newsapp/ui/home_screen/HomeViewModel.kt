@@ -26,7 +26,7 @@ class HomeViewModel(
         getHeadlines()
     }
 
-    private fun getHeadlines() {
+    fun getHeadlines() {
         viewModelScope.launch(Dispatchers.Default) {
             _newsState.emit(Resource.Loading)
             Logger.d(tag = "RESPONSE", messageString = "Loading")

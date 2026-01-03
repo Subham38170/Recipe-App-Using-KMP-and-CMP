@@ -16,6 +16,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import newsapp.composeapp.generated.resources.Res
+import newsapp.composeapp.generated.resources.ic_browser
+import newsapp.composeapp.generated.resources.ic_network_error
+import newsapp.composeapp.generated.resources.ic_retry
 import org.subham.newsapp.data.repository.RemoteNewsRepository
 import org.subham.newsapp.theme.mediumPadding
 import org.subham.newsapp.ui.common.ArticleListScreen
@@ -31,7 +35,7 @@ fun SearchScreen(
 ) {
     val searchViewModel = viewModel { SearchViewModel(RemoteNewsRepository()) }
     val uiState by searchViewModel.newsState.collectAsState()
-    var text by rememberSaveable {
+    var query by rememberSaveable {
         mutableStateOf("")
     }
     Scaffold(
@@ -55,8 +59,8 @@ fun SearchScreen(
             verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
             SearchBar(
-                text = text,
-                onValueChange = { text = it },
+                text = query,
+                onValueChange = { query = it },
                 onSearch = { query ->
                     if (query.trim().isNotEmpty()) searchViewModel.searchNews(query)
                 }
@@ -65,15 +69,24 @@ fun SearchScreen(
 
             uiState.DisplayResult(
                 onIdle = {
-                    EmptyContent("Type to search")
+                    EmptyContent(
+                        message = "Type to Search",
+                        icon = Res.drawable.ic_browser,
+                        isOnRetryBtnVisible = false
+                    )
 
                 },
                 onLoading = {
                     ShimmerEffect()
                 },
                 onSuccess = {
-                    if (it.isEmpty()) EmptyContent("No news")
-                    else ArticleListScreen(
+                    if (it.isEmpty()) {
+                        EmptyContent(
+                            message = "No news",
+                            icon = Res.drawable.ic_retry,
+                            isOnRetryBtnVisible = false
+                        )
+                    } else ArticleListScreen(
                         articles = it,
                         onClick = {
                             navigateTo(Routes.ArticleDetailsScreen(it))
@@ -81,7 +94,13 @@ fun SearchScreen(
                     )
                 },
                 onError = {
-                    EmptyContent(it)
+                    EmptyContent(
+                        message = it,
+                        icon = Res.drawable.ic_network_error,
+                        onRetryClick = {
+                            if (query.trim().isNotEmpty()) searchViewModel.searchNews(query)
+                        }
+                    )
                 }
             )
 

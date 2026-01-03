@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.subham.newsapp.data.model.Article
-import org.subham.newsapp.ui.home_screen.articlesList
 import org.subham.newsapp.utils.Resource
 
 class BookMarkViewModel : ViewModel() {
@@ -24,7 +23,7 @@ class BookMarkViewModel : ViewModel() {
             _newsState.emit(Resource.Loading)
             try {
 
-                _newsState.emit(Resource.Success(articlesList))
+                _newsState.emit(Resource.Success(emptyList()))
             } catch (e: Exception) {
                 _newsState.emit(Resource.Error(e.message.toString()))
             }

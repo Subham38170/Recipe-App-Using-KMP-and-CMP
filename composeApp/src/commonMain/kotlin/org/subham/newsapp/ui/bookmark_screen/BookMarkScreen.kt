@@ -12,6 +12,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import newsapp.composeapp.generated.resources.Res
+import newsapp.composeapp.generated.resources.ic_browser
+import newsapp.composeapp.generated.resources.ic_network_error
+import newsapp.composeapp.generated.resources.ic_retry
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.ShimmerEffect
@@ -50,7 +54,13 @@ fun BookMarkScreen(
                     ShimmerEffect()
                 },
                 onSuccess = {
-                    if (it.isEmpty()) EmptyContent("No news")
+                    if (it.isEmpty()){
+                        EmptyContent(
+                            message = "No News",
+                            icon = Res.drawable.ic_browser,
+                            isOnRetryBtnVisible = false
+                        )
+                    }
                     else ArticleListScreen(
                         articles = it,
                         onClick = {
@@ -59,7 +69,11 @@ fun BookMarkScreen(
                     )
                 },
                 onError = {
-                    EmptyContent(it)
+                    EmptyContent(
+                        message = it,
+                        icon = Res.drawable.ic_network_error,
+                        isOnRetryBtnVisible = false
+                    )
                 }
             )
         }
