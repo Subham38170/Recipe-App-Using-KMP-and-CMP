@@ -14,7 +14,7 @@ import org.subham.newsapp.BuildKonfig
 
 const val SharedPrefsFileName = "app_prefs"
 val NEWS_API_KEY = BuildKonfig.NEWS_API_KEY
-
+const val DB_NAME = "NewsDB"
 
 //https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
 const val BASE_URL = "https://newsapi.org/v2/"

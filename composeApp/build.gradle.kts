@@ -1,6 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -13,6 +12,9 @@ plugins {
 
     alias(libs.plugins.buildkonfig)
     kotlin("plugin.serialization") version "1.9.10"
+
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 
 
 }
@@ -31,29 +33,34 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+// Required when using NativeSQLiteDriver
+            linkerOpts.add("-lsqlite3")
         }
     }
 
     jvm()
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
+//    js {
+//        browser()
+//        binaries.executable()
+//    }
+//
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//        binaries.executable()
+//    }
 
     sourceSets {
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
             //Ktor
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
 
         }
         commonMain.dependencies {
@@ -102,17 +109,28 @@ kotlin {
             // Settings library to store settings
             implementation(libs.multiplatform.settings)
 
+            //Room
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+
         }
+//        nonJsMain.dependencies {
+//            // Core Room runtime dependency
+//            implementation(libs.androidx.room.runtime)
+//            implementation(libs.androidx.sqlite.bundled)
+//        }
         iosMain.dependencies {
             //Ktor
             implementation(libs.ktor.client.darwin)
-        }
-
-        jsMain.dependencies {
-            //Ktor
-            implementation(libs.ktor.client.js)
 
         }
+
+
+//        jsMain.dependencies {
+//            //Ktor
+//            implementation(libs.ktor.client.js)
+//
+//        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -122,6 +140,8 @@ kotlin {
 
             //Ktor
             implementation(libs.ktor.client.java)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
 
         }
     }
@@ -156,6 +176,13 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspJvmTest", libs.androidx.room.compiler) // Not doing anything because there's no test source set for JVM
+//    // There is no processing for the Linux x64 main source set, because kspLinuxX64 isn't specified
+    //add("kspLinuxX64Test", libs.androidx.room.compiler)
 }
 
 compose.desktop {
@@ -168,6 +195,11 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 buildkonfig {
     packageName = "org.subham.newsapp"

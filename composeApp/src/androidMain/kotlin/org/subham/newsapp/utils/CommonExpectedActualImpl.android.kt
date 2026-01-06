@@ -3,8 +3,11 @@ package org.subham.newsapp.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
+import org.subham.newsapp.data.database.NewsDatabase
 import java.util.UUID
 
 actual fun getType(): Type {
@@ -38,4 +41,13 @@ actual fun createSettings(): Settings {
     val prefs =
         activityProvider.invoke().getSharedPreferences(SharedPrefsFileName, Context.MODE_PRIVATE)
     return SharedPreferencesSettings(prefs)
+}
+
+actual fun getDatabaseBuilder(): RoomDatabase.Builder<NewsDatabase> {
+    val activity = activityProvider.invoke()
+    val dbFile = activity.getDatabasePath(DB_NAME)
+    return Room.databaseBuilder(
+        context = activity,
+        name = dbFile.absolutePath
+    )
 }

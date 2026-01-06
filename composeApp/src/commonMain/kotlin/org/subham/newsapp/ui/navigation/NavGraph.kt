@@ -22,6 +22,8 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import org.subham.newsapp.data.database.NewsDao
+import org.subham.newsapp.data.database.NewsDatabase
 import org.subham.newsapp.ui.article_details.ArticleDetailScreen
 import org.subham.newsapp.ui.bookmark_screen.BookMarkScreen
 import org.subham.newsapp.ui.home_screen.HomeScreen
@@ -33,10 +35,9 @@ import org.subham.newsapp.ui.setting_screen.SettingViewModel
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
-    settingViewModel: SettingViewModel
+    settingViewModel: SettingViewModel,
+    newsDao: NewsDao
 ) {
-
-
     val backStack = remember { mutableStateListOf<Routes>(Routes.HomeScreen) }
 
     val navigationSuiteScaffoldState = rememberNavigationSuiteScaffoldState()
@@ -124,7 +125,8 @@ fun NavGraph(
                         article = it.article,
                         onBackClick = {
                             backStack.removeLastOrNull()
-                        }
+                        },
+                        newsDao = newsDao
                     )
                 }
                 entry<Routes.SettingScreen>(

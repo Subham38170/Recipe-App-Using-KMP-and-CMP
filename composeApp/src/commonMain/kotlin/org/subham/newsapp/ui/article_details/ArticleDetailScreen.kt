@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Webhook
-import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,19 +23,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import newsapp.composeapp.generated.resources.Res
 import newsapp.composeapp.generated.resources.logo
 import newsapp.composeapp.generated.resources.news_detail
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.subham.newsapp.data.database.NewsDao
 import org.subham.newsapp.data.model.Article
+import org.subham.newsapp.data.repository.LocalRepository
 import org.subham.newsapp.theme.detailImageSize
 import org.subham.newsapp.theme.xLargePadding
 import org.subham.newsapp.utils.sharedLink
@@ -42,10 +48,15 @@ import org.subham.newsapp.utils.sharedLink
 @Composable
 fun ArticleDetailScreen(
     article: Article,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    newsDao: NewsDao,
 ) {
     val uriHandler = LocalUriHandler.current
 
+    val articleDetailsViewModel = viewModel { ArticleDetailsViewModel(LocalRepository(newsDao)) }
+    LaunchedEffect(Unit) {
+        articleDetailsViewModel.isArticleBookmarked(article)
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -93,12 +104,12 @@ fun ArticleDetailScreen(
                     }
                     IconButton(
                         onClick = {
-
+                            articleDetailsViewModel.bookmarkArticle(currentArticle = article)
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.BookmarkBorder,
-                            contentDescription = "Share Icon"
+                            imageVector = if (articleDetailsViewModel.isBookMarked) Icons.Filled.Bookmark else Icons.Outlined.Bookmark,
+                            contentDescription = "Bookmark"
                         )
                     }
                 }
@@ -128,7 +139,7 @@ fun ArticleDetailScreen(
             }
             item {
                 Text(
-                    text = article.title?: "Unknown",
+                    text = article.title ?: "Unknown",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
