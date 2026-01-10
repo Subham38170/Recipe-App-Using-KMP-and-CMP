@@ -61,6 +61,15 @@ class RemoteNewsRepository {
             parameter("apiKey", NEWS_API_KEY)
         }
     }
+    suspend fun getCategoryWiseNews(
+        category: String
+    ): HttpResponse {
+        return httpClient.get {
+            url("top-headlines")
+            parameter("category",category)
+            parameter("apiKey", NEWS_API_KEY)
+        }
+    }
 
     suspend fun searchNews(query: String): HttpResponse {
         return httpClient.get {
@@ -69,4 +78,6 @@ class RemoteNewsRepository {
             parameter("apiKey", NEWS_API_KEY)
         }
     }
+
+
 }

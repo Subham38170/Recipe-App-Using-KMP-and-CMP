@@ -25,6 +25,17 @@ enum class Type {
     WEB
 }
 
+
+val categoryList = arrayListOf(
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology"
+)
+
 enum class Theme(val title: StringResource) {
     SYSTEM_DEFAULT(Res.string.system_default),
     LIGHT_MODE(Res.string.light_mode),

@@ -20,5 +20,8 @@ class LocalRepository(
     suspend fun deleteArticle(article: Article) {
         newsDao.delete(article)
     }
+    suspend fun deleteAllarticles(){
+        newsDao.deleteALlArticles()
+    }
 
 }

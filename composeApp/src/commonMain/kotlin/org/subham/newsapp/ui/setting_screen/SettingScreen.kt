@@ -61,7 +61,9 @@ fun SettingScreen(
                     showDeleteBookmarkDialog = false
                 },
                 onDeleteBookmark = {
+                    settingViewModel.deleteAllBookMarkedArticles()
                     showDeleteBookmarkDialog = false
+
                 }
             )
         }

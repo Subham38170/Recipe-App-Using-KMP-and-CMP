@@ -1,10 +1,16 @@
 package org.subham.newsapp.ui.home_screen
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -12,22 +18,25 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import newsapp.composeapp.generated.resources.Res
 import newsapp.composeapp.generated.resources.ic_browser
 import newsapp.composeapp.generated.resources.ic_network_error
-import newsapp.composeapp.generated.resources.ic_retry
 import newsapp.composeapp.generated.resources.no_news
 import newsapp.composeapp.generated.resources.setting
 import org.jetbrains.compose.resources.stringResource
 import org.subham.newsapp.data.repository.RemoteNewsRepository
+import org.subham.newsapp.theme.xSmallPadding
 import org.subham.newsapp.ui.common.ArticleListScreen
 import org.subham.newsapp.ui.common.EmptyContent
 import org.subham.newsapp.ui.common.ShimmerEffect
 import org.subham.newsapp.ui.navigation.Routes
+import org.subham.newsapp.utils.categoryList
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,6 +46,8 @@ fun HomeScreen(
 ) {
     val headLineViewModel = viewModel { HomeViewModel(RemoteNewsRepository()) }
     val uiState by headLineViewModel.newsState.collectAsState()
+
+
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -58,9 +69,39 @@ fun HomeScreen(
 
             })
         }) {
-        Box(
+        Column(
             modifier = Modifier.padding(it)
         ) {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = xSmallPadding),
+                horizontalArrangement = Arrangement.spacedBy(
+                    xSmallPadding,
+                    Alignment.CenterHorizontally
+                )
+
+            ) {
+                items(
+                    items = categoryList,
+                    key = { it }
+                ) {
+
+                    FilterChip(
+                        selected = it == headLineViewModel.category,
+                        onClick = {
+                            headLineViewModel.category = it
+                            headLineViewModel.getCategoryHeadlines()
+                        },
+                        label = {
+                            Text(it)
+                        }
+
+                    )
+                }
+
+            }
+
             uiState.DisplayResult(onIdle = {
 
             }, onLoading = {
