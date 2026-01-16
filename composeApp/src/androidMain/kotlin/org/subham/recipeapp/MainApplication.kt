@@ -4,12 +4,15 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.dsl.module
+import org.subham.recipeapp.data.local.DatabaseFactory
 import org.subham.recipeapp.di.initKoin
 
 class MainApplication : Application() {
 
     private val androidModule = module {
-
+        single {
+            DatabaseFactory(applicationContext)
+        }
     }
 
     override fun onCreate() {
