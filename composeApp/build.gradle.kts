@@ -94,6 +94,10 @@ kotlin {
             //Datetime
             implementation(libs.kotlinx.datetime)
 
+            //Primitive adaptor for SQLDelight
+            implementation(libs.primitive.adapters)
+
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -177,7 +181,7 @@ sqldelight {
     databases {
         create("RecipeAppDB") {
             packageName.set("org.subham.recipeapp")
-            generateAsync = true
+            generateAsync.set(true)
         }
     }
 }

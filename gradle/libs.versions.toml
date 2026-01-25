@@ -15,15 +15,15 @@ androidx-testExt = "1.3.0"
 coilCompose = "3.3.0"
 coilNetworkKtor3 = "3.3.0"
 composeHotReload = "1.0.0"
-composeMultiplatform = "1.9.3"
+composeMultiplatform = "1.10.0"
 junit = "4.13.2"
 koinCompose = "4.1.1"
 koinComposeViewmodel = "4.1.1"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
-kotlinxSerializationJson = "1.9.0"
-ktor = "3.3.3"
+kotlinxSerializationJson = "1.10.0"
+ktor = "3.4.0"
 lifecycleViewmodelNavigation3 = "2.10.0-rc01"
 multiplatform-nav3-ui = "1.0.0-alpha06"
 compose-multiplatform-adaptive = "1.3.0-alpha03"
@@ -76,6 +76,7 @@ material3-adaptive-navigation-suite = { module = "androidx.compose.material3:mat
 native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "nativeDriver" }
 navigation3-browser = { module = "com.github.terrakok:navigation3-browser", version.ref = "compose-multiplatform-navigation3-browser" }
 navigation3-ui-v110alpha01 = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3UiVersion" }
+primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "androidDriver" }
 russhwolf-multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettingsVersion" }
 sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqliteDriver" }
 web-worker-driver = { module = "app.cash.sqldelight:web-worker-driver", version.ref = "webWorkerDriver" }
